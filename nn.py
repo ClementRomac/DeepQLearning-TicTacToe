@@ -64,8 +64,6 @@ def neural_net(num_sensors, params, load=''):
 
     # model = LogisticRegression(warm_start=True)
 
-    return model
-
 def process_minibatch(minibatch, model, GAMMA, NUM_INPUT):
     """This does the heavy lifting, aka, the training. It's super jacked."""
     X_train = []

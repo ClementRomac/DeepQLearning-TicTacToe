@@ -3,7 +3,7 @@ import timeit
 
 from theano.gradient import np
 
-from Enimia.morpion.nn import *
+from nn import *
 
 
 class IA:
@@ -39,8 +39,8 @@ class IA:
         self.currentHitNumber = 0
         self.minHitNUmber = 100
         if isHuman != True and isDummy != True:
-            self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/5000.h5")
-            # self.model = neural_net(self.NUM_INPUT, self.nn_param)
+            #self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/9000.h5")
+            self.model = neural_net(self.NUM_INPUT, self.nn_param)
 
     def play(self, playable_position, state = None, total_game = None):
 
@@ -68,48 +68,49 @@ class IA:
         return self.tmp_action
 
     def callbackGameStateChange(self, reward, new_state, total_frame):
-        # Take action, observe new state and get our treat.
-        self.currentHitNumber = total_frame
-        new_state = np.asarray(new_state).reshape(1, self.NUM_INPUT)
-        # Experience replay storage.
-        self.replay.append((self.tmp_state, self.tmp_action, reward, new_state))
+        if self.isDummy != True and self.isHuman != True:
+            # Take action, observe new state and get our treat.
+            self.currentHitNumber = total_frame
+            new_state = np.asarray(new_state).reshape(1, self.NUM_INPUT)
+            # Experience replay storage.
+            self.replay.append((self.tmp_state, self.tmp_action, reward, new_state))
 
-        # If we're done observing, start training.
-        if total_frame > self.observe:
+            # If we're done observing, start training.
+            if total_frame > self.observe:
 
-            # If we've stored enough in our buffer, pop the oldest.
-            if len(self.replay) > self.buffer:
-                self.replay.pop(0)
+                # If we've stored enough in our buffer, pop the oldest.
+                if len(self.replay) > self.buffer:
+                    self.replay.pop(0)
 
-            # Randomly sample our experience replay memory
-            minibatch = random.sample(self.replay, self.batchSize)
+                # Randomly sample our experience replay memory
+                minibatch = random.sample(self.replay, self.batchSize)
 
-            # Get training values.
-            X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT)
-            # Train the model on this batch.
-            history = LossHistory()
-            self.loss_log.append(self.model.train_on_batch(
-                X_train, y_train
-            ))
+                # Get training values.
+                X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT)
+                # Train the model on this batch.
+                history = LossHistory()
+                self.loss_log.append(self.model.train_on_batch(
+                    X_train, y_train
+                ))
 
 
-            #self.loss_log.append(history.losses)
+                #self.loss_log.append(history.losses)
 
-        # # Update the starting state with S'.
-        # state = new_state
+            # # Update the starting state with S'.
+            # state = new_state
 
-        # Decrement epsilon over time.
-        if self.epsilon > 0.1 and total_frame > self.observe:
-            self.epsilon -= (1 / self.divide_epsilon)
+            # Decrement epsilon over time.
+            if self.epsilon > 0.1 and total_frame > self.observe:
+                self.epsilon -= (1 / self.divide_epsilon)
 
-        # Save the model every 25 000 frames.
-        if total_frame % 1000 == 0 and total_frame > 0:
-            self.model.save_weights("h5/"+str(total_frame) + '.h5',
-                                    overwrite=True)
-            print("Saving model %s - %d" % (self.filename, total_frame))
+            # Save the model every 25 000 frames.
+            if total_frame % 1000 == 0 and total_frame > 0:
+                self.model.save_weights("h5/"+str(total_frame) + '.h5',
+                                        overwrite=True)
+                print("Saving model %s - %d" % (self.filename, total_frame))
 
-        # Log results after we're done all frames.
-        #log_results(self.filename, self.data_collect, self.loss_log)
+            # Log results after we're done all frames.
+            #log_results(self.filename, self.data_collect, self.loss_log)
 
     def win(self, nbPlay):
         self.nbWin += 1

@@ -1,9 +1,9 @@
 from IPython.core.display import display
 
-from Enimia.morpion.IA import IA
+from IA import IA
 import matplotlib.pyplot as plt
 
-DISPLAY_INFO = True
+DISPLAY_INFO = False
 REWARD_ONE_HIT = 5
 
 
@@ -113,13 +113,13 @@ def init():
 if __name__ == '__main__':
     global ias
     ias = {1: IA("IA", 1), 2: IA("Human", 2, isDummy=True, isHuman=DISPLAY_INFO)}
-    plt.xlabel('Nb of Games')
-    plt.ylabel('Human Wins')
-    plot = plt.plot(0,0)
-    plt.axis((500, 10000, 0, 50))
+    #plt.xlabel('Nb of Games')
+    #plt.ylabel('Human Wins')
+    #plot = plt.plot(0,0)
+    #plt.axis((500, 10000, 0, 50))
 
 
-    for i in range(0, 10000):
+    for i in range(0, 20000):
         player, state_vector = init()
         winner, nbPlay, state_vector = playAGame(player, i)
         if winner == ias[1]:
