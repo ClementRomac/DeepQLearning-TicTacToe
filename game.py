@@ -139,9 +139,11 @@ if __name__ == '__main__':
             ias[1].callbackGameStateChange(rewardLooser1, state_vector, i)
             rewardLooser2 = ias[2].equal()
             ias[2].callbackGameStateChange(rewardLooser2, state_vector, i)
-            print("No one win", ias[1].nbWin)
+            print("No one win")
         #if i > 500:
             #plt.scatter(i, ias[2].nbWin)
             #plt.draw()
             #plt.pause(0.01)
     #plt.show()
+    # Log results after we're done all frames.
+    IA.log_results()

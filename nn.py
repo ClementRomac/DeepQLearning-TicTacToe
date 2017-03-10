@@ -9,7 +9,6 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.optimizers import RMSprop
 from keras.callbacks import Callback
 from theano.gradient import np
-from sklearn.linear_model import LogisticRegression
 import os
 
 
@@ -96,15 +95,3 @@ def process_minibatch(minibatch, model, GAMMA, NUM_INPUT):
     y_train = np.array(y_train)
 
     return X_train, y_train
-
-
-def log_results(filename, data_collect, loss_log):
-    # Save the results to a file so we can graph it later.
-    with open(filename + '.csv', 'w') as data_dump:
-        wr = csv.writer(data_dump)
-        wr.writerows(data_collect)
-
-    with open(filename + '.csv', 'w') as lf:
-        wr = csv.writer(lf)
-        for loss_item in loss_log:
-            wr.writerow(loss_item)
