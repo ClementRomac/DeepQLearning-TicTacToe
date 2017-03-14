@@ -3,8 +3,8 @@ from IPython.core.display import display
 from IA import IA
 import matplotlib.pyplot as plt
 
-DISPLAY_INFO = False
-REWARD_ONE_HIT = 5
+DISPLAY_INFO = True
+REWARD_ONE_HIT = 1
 
 
 def displayGrid(grille):
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     #plt.axis((500, 10000, 0, 50))
 
 
-    for i in range(0, 20000):
+    for i in range(0, 20001):
         player, state_vector = init()
         winner, nbPlay, state_vector = playAGame(player, i)
         if winner == ias[1]:
@@ -146,4 +146,3 @@ if __name__ == '__main__':
             #plt.pause(0.01)
     #plt.show()
     # Log results after we're done all frames.
-    IA.log_results()

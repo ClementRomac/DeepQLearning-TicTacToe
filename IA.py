@@ -4,6 +4,7 @@ import timeit
 from theano.gradient import np
 
 from nn import *
+import csv
 
 
 class IA:
@@ -12,7 +13,9 @@ class IA:
     batchSize = 50
     divide_epsilon = 1000
     NUM_INPUT = 9
-    GAMMA = 0.25
+    GAMMA = 0.5
+    epsilon = 1
+    nn_param = [16]
 
     def __init__(self, name, symbol, isDummy=False, isHuman = False):
         #--------
@@ -28,15 +31,12 @@ class IA:
         # IA
         #--------
         self.tmp_state = None
-        self.tmp_action = None
-        self.filename = "morpion_IA_data_collect"
+        self.tmp_actiontmp_action = None
         self.data_collect = []
         self.loss_log = []
-        self.epsilon = 0.5
         self.replay = []
-        self.nn_param = [16]
-        if isHuman != True and isDummy != True:
-            #self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/11000.h5")
+        if not isHuman and not isDummy:
+            #self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/19000.h5")
             self.model = neural_net(self.NUM_INPUT, self.nn_param)
 
     def play(self, playable_position, state = None, total_game = None):
@@ -55,21 +55,25 @@ class IA:
                 self.tmp_action = random.randint(0, 8)# random
             else:
                 self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
-        elif randomNb < self.epsilon :
-            self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
-        else:
-            # Get Q values for each action.
-            qval = self.model.predict(self.tmp_state, batch_size=1)
-            self.tmp_action = (np.argmax(qval))  # best
+            else:
+            if randomNb < self.epsilon :
+                self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+            else:
+                # Get Q values for each action.
+                qval = self.model.predict(self.tmp_state, batch_size=1)
+                self.tmp_action = (np.argmax(qval))  # best
         return self.tmp_action
 
     def callbackGameStateChange(self, reward, new_state, total_frame):
-        if self.isDummy != True and self.isHuman != True:
+        if not self.isDummy and not self.isHuman:
             # Take action, observe new state and get our treat.
-            self.currentHitNumber = total_frame
             new_state = np.asarray(new_state).reshape(1, self.NUM_INPUT)
             # Experience replay storage.
             self.replay.append((self.tmp_state, self.tmp_action, reward, new_state))
+
+            if total_frame == self.observe:
+                print("----------------------------- TRAINING ----------------------------- ")
+
 
             # If we're done observing, start training.
             if total_frame > self.observe:
@@ -84,41 +88,41 @@ class IA:
                 # Get training values.
                 X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT)
                 # Train the model on this batch.
-                self.loss_log.append(self.model.train_on_batch(
-                    X_train, y_train
+                self.loss_log.append(self.model.fit(
+                    X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=1
                 ))
 
+                # Decrement epsilon over time.
+                if self.epsilon > 0.1:
+                    self.epsilon -= (1 / self.divide_epsilon)
 
-            # Decrement epsilon over time.
-            if self.epsilon > 0.1 and total_frame > self.observe:
-                self.epsilon -= (1 / self.divide_epsilon)
 
-            # Save the model every 25 000 frames.
+            # Save the model every 1 000 frames.
             if total_frame % 1000 == 0 and total_frame > 0:
-                self.model.save_weights("h5/"+str(total_frame+10000) + '.h5',
+                self.model.save_weights("h5/"+str(total_frame) + '.h5',
                                         overwrite=True)
-                print("Saving model %s - %d" % (self.filename, total_frame))
+                print("Saving model and results for %s - %d" % ("Morpion IA", total_frame))
+                self.log_results("results/losses-"+str(total_frame))
+                self.log_results("results/plays-" + str(total_frame))
 
     def win(self, nbPlay):
         self.nbWin += 1
-        return 100
+        return 15
 
     def loose(self):
         self.nbWin = 0
-        return -500
+        return -20
 
     def equal(self):
         self.nbWin = 0
-        return -100
+        return -5
 
-    def log_results(self):
-        # Save the results to a file so we can graph it later.
-        with open(self.filename + '.csv', 'w') as data_dump:
+    def log_results(self, name):
+        with open(name + '.csv', 'w') as data_dump:
             wr = csv.writer(data_dump)
             wr.writerows(self.data_collect)
 
-        with open(self.filename + '.csv', 'w') as lf:
+        with open(name + '.csv', 'w') as lf:
             wr = csv.writer(lf)
-            for loss_item in self.loss_log:
-                wr.writerow(loss_item)
+            wr.writerows(map(lambda x: [x], self.loss_log))
 
