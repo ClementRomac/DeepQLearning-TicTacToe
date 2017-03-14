@@ -1,13 +1,19 @@
 import random
 import timeit
+from enum import Enum
 
 from theano.gradient import np
 
 from nn import *
 import csv
 
+class AITypes(Enum):
+    ANN = 1,
+    RANDMOM = 2,
+    HUMAN = 3
 
-class IA:
+
+class AI:
     observe = 500
     buffer = 50000
     batchSize = 50
@@ -17,27 +23,30 @@ class IA:
     epsilon = 1
     nn_param = [16]
 
-    def __init__(self, name, symbol, isDummy=False, isHuman = False):
+    def __init__(self, name, symbol, AIType, load_weights=None):
         #--------
         # Game
         #--------
         self.name = name
         self.symbol = symbol
-        self.isDummy = isDummy
-        self.isHuman = isHuman
         self.nbWin = 0
+        self.AIType = AIType
+        self.isTrainig = False if load_weights else True
 
         #--------
         # IA
         #--------
         self.tmp_state = None
-        self.tmp_actiontmp_action = None
+        self.tmp_action = None
         self.data_collect = []
         self.loss_log = []
         self.replay = []
-        if not isHuman and not isDummy:
-            #self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/19000.h5")
-            self.model = neural_net(self.NUM_INPUT, self.nn_param)
+
+        if AIType == AITypes.ANN:
+            if load_weights:
+                self.model = neural_net(self.NUM_INPUT, self.nn_param, "./h5/"+load_weights+".h5")
+            else:
+                self.model = neural_net(self.NUM_INPUT, self.nn_param)
 
     def play(self, playable_position, state = None, total_game = None):
 
@@ -45,27 +54,32 @@ class IA:
 
         # Choose an action.
         randomNb = random.random()
-        if self.isHuman:
+        if self.AIType == AITypes.HUMAN:
             print(playable_position)
             self.tmp_action = int(input("index"))  # random
-        elif self.isDummy:
+        elif self.AIType == AITypes.RANDMOM:
             self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
-        elif total_game < self.observe :
-            if randomNb < 0.15 :
-                self.tmp_action = random.randint(0, 8)# random
+        else:
+            if self.isTrainig:
+                if total_game < self.observe :
+                    if randomNb < 0.15 :
+                        self.tmp_action = random.randint(0, 8)# random
+                    else:
+                        self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+                else:
+                    if randomNb < self.epsilon :
+                        self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+                    else:
+                        # Get Q values for each action.
+                        qval = self.model.predict(self.tmp_state, batch_size=1)
+                        self.tmp_action = (np.argmax(qval))  # best
             else:
-                self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
-            else:
-            if randomNb < self.epsilon :
-                self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
-            else:
-                # Get Q values for each action.
                 qval = self.model.predict(self.tmp_state, batch_size=1)
                 self.tmp_action = (np.argmax(qval))  # best
         return self.tmp_action
 
     def callbackGameStateChange(self, reward, new_state, total_frame):
-        if not self.isDummy and not self.isHuman:
+        if self.AIType == AITypes.ANN and self.isTrainig:
             # Take action, observe new state and get our treat.
             new_state = np.asarray(new_state).reshape(1, self.NUM_INPUT)
             # Experience replay storage.
@@ -89,7 +103,7 @@ class IA:
                 X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT)
                 # Train the model on this batch.
                 self.loss_log.append(self.model.fit(
-                    X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=1
+                    X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=0
                 ))
 
                 # Decrement epsilon over time.
@@ -113,7 +127,7 @@ class IA:
         self.nbWin = 0
         return -20
 
-    def equal(self):
+    def draw(self):
         self.nbWin = 0
         return -5
 
