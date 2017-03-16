@@ -12,6 +12,11 @@ class AITypes(Enum):
     RANDMOM = 2,
     HUMAN = 3
 
+class RewardTypes(Enum):
+    WIN = 1,
+    LOOSE = 2,
+    DRAW = 3,
+    NOTHING = 4
 
 class AI:
     observe = 500
@@ -76,6 +81,7 @@ class AI:
             else:
                 qval = self.model.predict(self.tmp_state, batch_size=1)
                 self.tmp_action = (np.argmax(qval))  # best
+
         return self.tmp_action
 
     def callbackGameStateChange(self, reward, new_state, total_frame):
@@ -119,17 +125,21 @@ class AI:
                 self.log_results("results/losses-"+str(total_frame))
                 self.log_results("results/plays-" + str(total_frame))
 
-    def win(self, nbPlay):
-        self.nbWin += 1
-        return 15
 
-    def loose(self):
-        self.nbWin = 0
-        return -20
+    def getReward(self, rewardType):
+        if rewardType == RewardTypes.WIN:
+            self.nbWin += 1
+            return 15
+        elif rewardType == RewardTypes.LOOSE:
+            self.nbWin = 0
+            return -20
+        elif rewardType == RewardTypes.DRAW:
+            self.nbWin = 0
+            return -5
+        elif rewardType == RewardTypes.NOTHING:
+            return 1
 
-    def draw(self):
-        self.nbWin = 0
-        return -5
+
 
     def log_results(self, name):
         with open(name + '.csv', 'w') as data_dump:
