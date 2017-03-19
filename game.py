@@ -144,14 +144,14 @@ def playGames(nbr, AIs):
 
 if __name__ == '__main__':
     AIs = {
-        1: AI("IA", 1, AITypes.ANN),
-        2: AI("Random Player", 2, AITypes.RANDMOM)
+        1: AI("AI", 1, AITypes.ANN),
+        2: AI("Random Player", 2, AITypes.RANDOM)
     }
 
     print("-------------------- TRAINGING VS RANDOM --------------------")
     playGames(20000, AIs)
 
     # AIs[1] = AI("IA", 1, AITypes.ANN)
-    # AIs[2] = AI("IA", 1, AITypes.ANN, 20000)
+    # AIs[2] = AI("IA", 2, AITypes.ANN, 20000)
     # print("-------------------- TRAINGING VS ITSELF --------------------")
     # playGames(10000, AIs)

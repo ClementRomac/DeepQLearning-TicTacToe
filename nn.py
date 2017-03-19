@@ -19,17 +19,17 @@ from theano.gradient import np
 
 
 
-def neural_net(num_sensors, params, load=''):
+def neural_net(num_sensors, load=''):
     model = Sequential()
 
     # First layer.
     model.add(Dense(
-        params[0], input_shape=(num_sensors,), init="lecun_uniform"
+        16, input_shape=(num_sensors,), init="lecun_uniform"
     ))
     model.add(Activation('relu'))  # f(input_neuron)=\max(0, input_neuron)
 
     # Output layer.
-    model.add(Dense(9, input_shape=(params[0],), init="lecun_uniform"))
+    model.add(Dense(9, input_shape=(16,), init="lecun_uniform"))
     model.add(Activation('linear'))
 
     rms = RMSprop()
@@ -40,7 +40,7 @@ def neural_net(num_sensors, params, load=''):
     return model
 
 
-def process_minibatch(minibatch, model, GAMMA, NUM_INPUT):
+def process_minibatch(minibatch, model, GAMMA, NUM_INPUT, non_terminal_reward):
     X_train = []
     y_train = []
     # Loop through our batch and create arrays for X and y
@@ -53,7 +53,7 @@ def process_minibatch(minibatch, model, GAMMA, NUM_INPUT):
         y = np.zeros((1, NUM_INPUT))
         y[:] = old_qval[:]
 
-        if reward_m == 5: # If it's a non terminal state
+        if reward_m == non_terminal_reward: # If it's a non terminal state
             # Get prediction on new state.
             newQ = model.predict(new_state_m, batch_size=1)
 
