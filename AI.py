@@ -107,7 +107,7 @@ class AI:
                 # Train the model on this batch.
                 self.loss_log.append(self.model.fit(
                     X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=0
-                ))
+                ).history)
 
                 # Decrement epsilon over time.
                 if self.epsilon > 0.1:
