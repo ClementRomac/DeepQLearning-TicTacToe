@@ -22,7 +22,7 @@ class RewardTypes(Enum):
 class AI:
     observe = 500
     buffer = 50000
-    batchSize = 20 # change to 1
+    batchSize = 20
     divide_epsilon = 10000
     NUM_INPUT = 9
     GAMMA = 0.8
@@ -116,7 +116,7 @@ class AI:
                     self.epsilon -= (1 / self.divide_epsilon)
 
             # Save the model every 1 000 frames.
-            if total_frame % 1000 == 0 and total_frame > 0:
+            if total_frame % 1000 == 0 and total_frame > 0 and reward != self.getReward(RewardTypes.NOTHING):
                 self.model.save_weights("h5/" + str(total_frame) + '.h5',
                                         overwrite=True)
                 print("Saving model and results for %s - %d" % ("Morpion AI", total_frame))
@@ -131,7 +131,7 @@ class AI:
             return -20
         elif rewardType == RewardTypes.DRAW:
             self.nbWin = 0
-            return -5
+            return 5
         elif rewardType == RewardTypes.NOTHING:
             return 0.5
 
