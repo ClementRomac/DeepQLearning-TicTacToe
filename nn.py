@@ -3,19 +3,10 @@ The design of this comes from here:
 http://outlace.com/Reinforcement-Learning-Part-3/
 """
 
+from keras.layers.core import Dense, Activation
 from keras.models import Sequential
-from keras.layers.core import Dense, Activation, Dropout
 from keras.optimizers import RMSprop
-from keras.callbacks import Callback
 from theano.gradient import np
-
-
-# class LossHistory(Callback):
-#     def on_train_begin(self, logs={}):
-#         self.losses = []
-#
-#     def on_batch_end(self, batch, logs={}):
-#         self.losses.append(logs.get('loss'))
 
 
 
