@@ -5,7 +5,7 @@ from AI import AI
 from AI import AITypes
 from AI import RewardTypes
 
-DISPLAY_INFO = False
+DISPLAY_INFO = True
 
 
 # ------------------------------------------ DISPLAY ----------------------------------------
@@ -127,13 +127,13 @@ def playGames(nbr, AIs):
             AIs[winnerIndex].callbackGameStateChange(rewardWinner, state_vector, i)
             rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
             AIs[1 + (winnerIndex % 2)].callbackGameStateChange(rewardLooser, state_vector, i)
-            print(AIs[winnerIndex].name, " wins for the ", AIs[winnerIndex].nbWin, " times in ", nbPlay, " plays")
+            print("Game ", i, " : ", AIs[winnerIndex].name, " wins for the ", AIs[winnerIndex].nbWin, " times in ", nbPlay, " plays")
         else:
             rewardLooser1 = AIs[1].getReward(RewardTypes.DRAW)
             AIs[1].callbackGameStateChange(rewardLooser1, state_vector, i)
             rewardLooser2 = AIs[2].getReward(RewardTypes.DRAW)
             AIs[2].callbackGameStateChange(rewardLooser2, state_vector, i)
-            print("Draw !")
+            print("Game ", i, " : ", "Draw !")
         # if i % 10 == 0:
         #     plt.scatter(i, AIs[1].nbWin, color='r')
         #     plt.scatter(i, AIs[2].nbWin)
@@ -149,15 +149,21 @@ def init():
 
 
 if __name__ == '__main__':
+    # AIs = {
+    #     1: AI("AI", 1, AITypes.ANN, isTraining=True),
+    #     2: AI("Random Player", -1, AITypes.RANDOM)
+    # }
+
     AIs = {
-        1: AI("AI", 1, AITypes.ANN),
-        2: AI("Random Player", 2, AITypes.RANDOM)
+        1: AI("AI", 1, AITypes.ANN, load_weights=50000),
+        2: AI("Human Player", -1, AITypes.HUMAN)
     }
 
     print("-------------------- TRAINGING VS RANDOM --------------------")
-    playGames(20000, AIs)
+    playGames(50000, AIs)
 
-    # AIs[1] = AI("IA", 1, AITypes.ANN)
-    # AIs[2] = AI("IA", 2, AITypes.ANN, 20000)
+    # Reset Epsilon to a high value to keep the greedy exploration
+    # AIs[1].epsilon = 0.4
+    # AIs[2] = AI("IA", -1, AITypes.ANN, 20000)
     # print("-------------------- TRAINGING VS ITSELF --------------------")
-    # playGames(10000, AIs)
+    # playGames(20000, AIs)

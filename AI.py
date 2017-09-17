@@ -2,6 +2,7 @@ import csv
 import random
 from enum import Enum
 import os
+import tensorflow as tf
 
 from nn import *
 
@@ -20,15 +21,15 @@ class RewardTypes(Enum):
 
 
 class AI:
-    observe = 500
+    observe = 100
     buffer = 50000
     batchSize = 20
-    divide_epsilon = 10000
+    divide_epsilon = 100000
     NUM_INPUT = 9
     GAMMA = 0.8
-    epsilon = 0.9
+    epsilon = 0.7
 
-    def __init__(self, name, symbol, AIType, load_weights=None):
+    def __init__(self, name, symbol, AIType, load_weights=None, isTraining=False):
         # --------
         # Game
         # --------
@@ -36,7 +37,7 @@ class AI:
         self.symbol = symbol
         self.nbWin = 0
         self.AIType = AIType
-        self.isTraining = False if load_weights else True
+        self.isTraining = isTraining
 
         # --------
         # IA
@@ -47,6 +48,7 @@ class AI:
         self.replay = []
 
         if AIType == AITypes.ANN:
+            self.tb_writer = tf.summary.FileWriter("./Graph")
             if load_weights:
                 self.model = neural_net(self.NUM_INPUT, "./h5/" + str(load_weights) + ".h5")
             else:
@@ -107,9 +109,16 @@ class AI:
                 X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT,
                                                      self.getReward(RewardTypes.NOTHING))
                 # Train the model on this batch.
-                self.loss_log.append(self.model.fit(
-                    X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=0
-                ).history)
+                # self.loss_log.append(self.model.fit(
+                #     X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=0
+                # ).history)
+
+                loss = self.model.train_on_batch(X_train, y_train)
+
+                self.loss_log.append(loss)
+
+                summary = tf.Summary(value=[tf.Summary.Value(tag="Loss", simple_value=loss)])
+                self.tb_writer.add_summary(summary, total_frame)
 
                 # Decrement epsilon over time.
                 if self.epsilon > 0.1:
@@ -125,13 +134,13 @@ class AI:
     def getReward(self, rewardType):
         if rewardType == RewardTypes.WIN:
             self.nbWin += 1
-            return 15
+            return 20
         elif rewardType == RewardTypes.LOOSE:
             self.nbWin = 0
             return -20
         elif rewardType == RewardTypes.DRAW:
             self.nbWin = 0
-            return 5
+            return 10
         elif rewardType == RewardTypes.NOTHING:
             return 0.5
 

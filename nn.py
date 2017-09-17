@@ -6,7 +6,7 @@ http://outlace.com/Reinforcement-Learning-Part-3/
 from keras.layers.core import Dense, Activation
 from keras.models import Sequential
 from keras.optimizers import RMSprop
-from theano.gradient import np
+import numpy as np
 
 
 
@@ -15,12 +15,12 @@ def neural_net(num_sensors, load=''):
 
     # First layer.
     model.add(Dense(
-        16, input_shape=(num_sensors,), init="lecun_uniform"
+        500, input_shape=(num_sensors,)
     ))
     model.add(Activation('relu'))  # f(input_neuron)=\max(0, input_neuron)
 
     # Output layer.
-    model.add(Dense(9, input_shape=(16,), init="lecun_uniform"))
+    model.add(Dense(9, input_shape=(500,)))
     model.add(Activation('linear'))
 
     rms = RMSprop()
