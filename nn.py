@@ -15,12 +15,12 @@ def neural_net(num_sensors, load=''):
 
     # First layer.
     model.add(Dense(
-        500, input_shape=(num_sensors,)
+        800, input_shape=(num_sensors,)
     ))
     model.add(Activation('relu'))  # f(input_neuron)=\max(0, input_neuron)
 
     # Output layer.
-    model.add(Dense(9, input_shape=(500,)))
+    model.add(Dense(9, input_shape=(800,)))
     model.add(Activation('linear'))
 
     rms = RMSprop()

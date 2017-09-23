@@ -5,8 +5,6 @@ from AI import AI
 from AI import AITypes
 from AI import RewardTypes
 
-DISPLAY_INFO = True
-
 
 # ------------------------------------------ DISPLAY ----------------------------------------
 
@@ -154,16 +152,24 @@ if __name__ == '__main__':
     #     2: AI("Random Player", -1, AITypes.RANDOM)
     # }
 
-    AIs = {
-        1: AI("AI", 1, AITypes.ANN, load_weights=50000),
-        2: AI("Human Player", -1, AITypes.HUMAN)
-    }
+    # DISPLAY_INFO = False
 
-    print("-------------------- TRAINGING VS RANDOM --------------------")
-    playGames(50000, AIs)
+    # print("-------------------- TRAINGING VS RANDOM --------------------")
+    # playGames(80000, AIs)
 
     # Reset Epsilon to a high value to keep the greedy exploration
     # AIs[1].epsilon = 0.4
     # AIs[2] = AI("IA", -1, AITypes.ANN, 20000)
     # print("-------------------- TRAINGING VS ITSELF --------------------")
     # playGames(20000, AIs)
+
+
+    AIs = {
+        1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
+        2: AI("Human Player", -1, AITypes.HUMAN)
+    }
+
+    DISPLAY_INFO = True
+
+    print("-------------------- IA VS HUMAN --------------------")
+    playGames(1000, AIs)

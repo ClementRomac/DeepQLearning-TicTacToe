@@ -3,6 +3,7 @@ import random
 from enum import Enum
 import os
 import tensorflow as tf
+import datetime
 
 from nn import *
 
@@ -48,7 +49,9 @@ class AI:
         self.replay = []
 
         if AIType == AITypes.ANN:
-            self.tb_writer = tf.summary.FileWriter("./Graph")
+            now = datetime.datetime.now()
+            self.saving_folder = str(now.year) + "." + str(now.month) + "." + str(now.day)
+            self.tb_writer = tf.summary.FileWriter("./Graph/" + self.saving_folder)
             if load_weights:
                 self.model = neural_net(self.NUM_INPUT, "./h5/" + str(load_weights) + ".h5")
             else:
@@ -126,10 +129,8 @@ class AI:
 
             # Save the model every 1 000 frames.
             if total_frame % 1000 == 0 and total_frame > 0 and reward != self.getReward(RewardTypes.NOTHING):
-                self.model.save_weights("h5/" + str(total_frame) + '.h5',
-                                        overwrite=True)
                 print("Saving model and results for %s - %d" % ("Morpion AI", total_frame))
-                self.log_results("results/plays-" + str(total_frame), "results/losses-" + str(total_frame))
+                self.log_results_and_weights(total_frame)
 
     def getReward(self, rewardType):
         if rewardType == RewardTypes.WIN:
@@ -144,11 +145,21 @@ class AI:
         elif rewardType == RewardTypes.NOTHING:
             return 0.5
 
-    def log_results(self, name1, name2):
-        with open(name1 + '.csv', 'w') as data_dump:
+    def log_results_and_weights(self, frames):
+        #### WEIGHTS ####4
+        if not os.path.exists("h5/" + self.saving_folder):
+            os.makedirs("h5/" + self.saving_folder + "/")
+        self.model.save_weights("h5/" + self.saving_folder + "/" + str(frames) + '.h5',
+                                overwrite=True)
+
+        #### RESULTS
+        if not os.path.exists("results/" + self.saving_folder):
+            os.makedirs("results/" + self.saving_folder)
+
+        with open("results/" + self.saving_folder + "/plays-" + str(frames) + '.csv', 'w') as data_dump:
             wr = csv.writer(data_dump)
             wr.writerows(self.replay)
 
-        with open(name2 + '.csv', 'w') as lf:
+        with open("results/" + self.saving_folder + "/losses-" + str(frames) + '.csv', 'w') as lf:
             wr = csv.writer(lf)
             wr.writerows(map(lambda x: [x], self.loss_log))
