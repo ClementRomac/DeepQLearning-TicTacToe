@@ -110,12 +110,12 @@ def playAGame(AIs, nbGame):
         nb_frames_per_game += 1
 
 
-def playGames(nbr, AIs):
+def playGames(nbr, AIs, checkpoint=0):
     # plt.xlabel('Nb of Games')
     # plt.ylabel('Human Wins')
     # plot = plt.plot(0, 0)
 
-    for i in range(0, nbr + 1):
+    for i in range(checkpoint, checkpoint + nbr + 1):
         winnerIndex, nbPlay, state_vector = playAGame(AIs, i)
         if winnerIndex is not None:
             #if winnerIndex == 2 and i > 2500:
@@ -147,15 +147,15 @@ def init():
 
 
 if __name__ == '__main__':
-    # AIs = {
-    #     1: AI("AI", 1, AITypes.ANN, isTraining=True),
-    #     2: AI("Random Player", -1, AITypes.RANDOM)
-    # }
+    AIs = {
+        1: AI("AI", 1, AITypes.ANN, isTraining=True),
+        2: AI("Random Player", -1, AITypes.RANDOM)
+    }
 
-    # DISPLAY_INFO = False
+    DISPLAY_INFO = False
 
-    # print("-------------------- TRAINGING VS RANDOM --------------------")
-    # playGames(80000, AIs)
+    print("-------------------- TRAINGING VS RANDOM --------------------")
+    playGames(80000, AIs)
 
     # Reset Epsilon to a high value to keep the greedy exploration
     # AIs[1].epsilon = 0.4
@@ -164,12 +164,12 @@ if __name__ == '__main__':
     # playGames(20000, AIs)
 
 
-    AIs = {
-        1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
-        2: AI("Human Player", -1, AITypes.HUMAN)
-    }
-
-    DISPLAY_INFO = True
-
-    print("-------------------- IA VS HUMAN --------------------")
-    playGames(1000, AIs)
+    # AIs = {
+    #     1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
+    #     2: AI("Human Player", -1, AITypes.HUMAN)
+    # }
+    #
+    # DISPLAY_INFO = True
+    #
+    # print("-------------------- IA VS HUMAN --------------------")
+    # playGames(1000, AIs)

@@ -4,6 +4,8 @@ from enum import Enum
 import os
 import tensorflow as tf
 import datetime
+import pickle
+import json
 
 from nn import *
 
@@ -130,7 +132,7 @@ class AI:
             # Save the model every 1 000 frames.
             if total_frame % 1000 == 0 and total_frame > 0 and reward != self.getReward(RewardTypes.NOTHING):
                 print("Saving model and results for %s - %d" % ("Morpion AI", total_frame))
-                self.log_results_and_weights(total_frame)
+                self.log_ai_and_weights(total_frame)
 
     def getReward(self, rewardType):
         if rewardType == RewardTypes.WIN:
@@ -145,21 +147,43 @@ class AI:
         elif rewardType == RewardTypes.NOTHING:
             return 0.5
 
-    def log_results_and_weights(self, frames):
-        #### WEIGHTS ####4
+    def log_ai_and_weights(self, frames):
+        #### WEIGHTS ####
         if not os.path.exists("h5/" + self.saving_folder):
             os.makedirs("h5/" + self.saving_folder + "/")
         self.model.save_weights("h5/" + self.saving_folder + "/" + str(frames) + '.h5',
                                 overwrite=True)
 
-        #### RESULTS
-        if not os.path.exists("results/" + self.saving_folder):
-            os.makedirs("results/" + self.saving_folder)
+        #### PICKLE ####
+        if not os.path.exists("pickles/" + self.saving_folder):
+            os.makedirs("pickles/" + self.saving_folder + "/")
+        with open("pickles/" + self.saving_folder + "/" + str(frames) + '.pickle', 'wb') as ai_dump:
+            dict_to_dump = {
+                'epsilon': self.epsilon,
+                'name': self.name,
+                'symbol': self.symbol,
+                'nbWin': self.nbWin,
+                'AIType': self.AIType,
+                'isTraining': self.isTraining,
+                'replay': self.replay,
+                'tmp_state': self.tmp_state,
+                'tmp_action': self.tmp_action,
+                'loss_log': self.loss_log
+            }
 
-        with open("results/" + self.saving_folder + "/plays-" + str(frames) + '.csv', 'w') as data_dump:
-            wr = csv.writer(data_dump)
-            wr.writerows(self.replay)
+            pickle.dump(dict_to_dump, ai_dump, protocol=pickle.HIGHEST_PROTOCOL)
 
-        with open("results/" + self.saving_folder + "/losses-" + str(frames) + '.csv', 'w') as lf:
-            wr = csv.writer(lf)
-            wr.writerows(map(lambda x: [x], self.loss_log))
+    @staticmethod
+    def load_ai(checkpoint):
+        with open("pickles/" + str(checkpoint) + '.pickle', 'rb') as handle:
+            ai_dict = pickle.load(handle)
+
+            ai = AI(ai_dict['name'], ai_dict['symbol'], ai_dict['AIType'], load_weights=checkpoint, isTraining=ai_dict['isTraining'])
+            ai.epsilon = ai_dict['epsilon']
+            ai.nbWin = ai_dict['nbWin']
+            ai.replay = ai_dict['replay']
+            ai.tmp_state = ai_dict['tmp_state']
+            ai.tmp_action = ai_dict['tmp_action']
+            ai.loss_log = ai_dict['loss_log']
+
+            return ai
