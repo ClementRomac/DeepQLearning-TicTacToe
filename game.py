@@ -93,16 +93,16 @@ def playAGame(AIs, nbGame):
     while not winner:
         if stroke(state_vector, AIs[player], nbGame):
             print("bad position")
-            return 1 + (player % 2), nb_frames_per_game, state_vector
+            return 1 + (player % 2), nb_frames_per_game, state_vector, False
 
         if isWin(state_vector):
             if DISPLAY_INFO:
                 print("Winner: " + AIs[player].name)
-            return player, nb_frames_per_game, state_vector
+            return player, nb_frames_per_game, state_vector, True
         elif isDraw(state_vector):
             if DISPLAY_INFO:
                 print("It's a draw !")
-            return None, nb_frames_per_game, state_vector
+            return None, nb_frames_per_game, state_vector, True
 
         AIs[player].callbackGameStateChange(AIs[player].getReward(RewardTypes.NOTHING), state_vector, nbGame)
 
@@ -111,19 +111,16 @@ def playAGame(AIs, nbGame):
 
 
 def playGames(nbr, AIs, checkpoint=0):
-    # plt.xlabel('Nb of Games')
-    # plt.ylabel('Human Wins')
-    # plot = plt.plot(0, 0)
 
     for i in range(checkpoint, checkpoint + nbr + 1):
-        winnerIndex, nbPlay, state_vector = playAGame(AIs, i)
+        winnerIndex, nbPlay, state_vector, no_error = playAGame(AIs, i)
         if winnerIndex is not None:
-            #if winnerIndex == 2 and i > 2500:
-                #displayGrid(state_vector)
-                #print(state_vector)
             rewardWinner = AIs[winnerIndex].getReward(RewardTypes.WIN)
             AIs[winnerIndex].callbackGameStateChange(rewardWinner, state_vector, i)
-            rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
+            if no_error:
+                rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
+            else: # means bad position
+                rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.BAD_POSITION)
             AIs[1 + (winnerIndex % 2)].callbackGameStateChange(rewardLooser, state_vector, i)
             print("Game ", i, " : ", AIs[winnerIndex].name, " wins for the ", AIs[winnerIndex].nbWin, " times in ", nbPlay, " plays")
         else:
@@ -132,12 +129,6 @@ def playGames(nbr, AIs, checkpoint=0):
             rewardLooser2 = AIs[2].getReward(RewardTypes.DRAW)
             AIs[2].callbackGameStateChange(rewardLooser2, state_vector, i)
             print("Game ", i, " : ", "Draw !")
-        # if i % 10 == 0:
-        #     plt.scatter(i, AIs[1].nbWin, color='r')
-        #     plt.scatter(i, AIs[2].nbWin)
-        #     plt.draw()
-        #     plt.pause(0.01)
-        # plt.show()
 
 
 def init():

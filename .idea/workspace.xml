@@ -2,8 +2,80 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a7df31b-6c02-428d-9687-ad256db0fbaa" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Graph/2017.09.16/events.out.tfevents.1505576083.PC-CLEMENT" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Graph/2017.09.17/events.out.tfevents.1505656960.PC-CLEMENT" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Graph/2017.9.24/events.out.tfevents.1506287315.PC-CLEMENT" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/1000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/10000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/11000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/12000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/13000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/14000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/15000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/16000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/17000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/18000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/19000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/2000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/20000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/3000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/4000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/5000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/6000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/7000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/8000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.16/9000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/1000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/10000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/11000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/12000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/13000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/14000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/15000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/16000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/17000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/18000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/19000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/2000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/20000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/21000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/22000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/23000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/24000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/25000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/26000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/27000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/28000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/29000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/3000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/30000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/31000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/32000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/33000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/34000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/35000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/36000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/37000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/38000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/39000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/4000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/40000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/41000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/42000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/43000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/44000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/45000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/46000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/47000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/48000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/49000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/5000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/50000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/6000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/7000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/8000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.09.17/9000.h5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/h5/2017.9.24/1000.h5" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI.py" afterPath="$PROJECT_DIR$/AI.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.py" afterPath="$PROJECT_DIR$/game.py" />
     </list>
@@ -16,15 +88,15 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DeepQLearning_TicTacToe$test.coverage" NAME="test Coverage Results" MODIFIED="1505574095668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DeepQLearning_TicTacToe$game.coverage" NAME="game Coverage Results" MODIFIED="1506341569693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DeepQLearning_TicTacToe$game.coverage" NAME="game Coverage Results" MODIFIED="1506344292774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="AI.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="132" column="31" lean-forward="false" selection-start-line="132" selection-start-column="31" selection-end-line="132" selection-end-column="31" />
+            <state relative-caret-position="330">
+              <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -35,21 +107,11 @@
       <file leaf-file-name="game.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="163" column="27" lean-forward="true" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
+            <state relative-caret-position="150">
+              <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -89,9 +151,9 @@
       <list>
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/nn.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/AI.py" />
         <option value="$PROJECT_DIR$/game.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -225,11 +287,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3991228" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -248,7 +310,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -434,31 +496,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AI.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="132" column="31" lean-forward="false" selection-start-line="132" selection-start-column="31" selection-end-line="132" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="163" column="27" lean-forward="true" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
+        <state relative-caret-position="150">
+          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="330">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
