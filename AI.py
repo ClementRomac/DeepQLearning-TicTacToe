@@ -20,8 +20,7 @@ class RewardTypes(Enum):
     WIN = 1,
     LOOSE = 2,
     DRAW = 3,
-    NOTHING = 4,
-    BAD_POSITION = 5
+    NOTHING = 4
 
 
 class AI:
@@ -65,7 +64,7 @@ class AI:
         self.tmp_state = np.asarray(state).reshape(1, self.NUM_INPUT)
 
         # Choose an action.
-        randomNb = random.random()
+        random_nb = random.random()
         if self.AIType == AITypes.HUMAN:
             print(playable_position)
             self.tmp_action = int(input("index"))  # random
@@ -74,12 +73,12 @@ class AI:
         else:
             if self.isTraining:
                 if total_game < self.observe:
-                    if randomNb < 0.15:
+                    if random_nb < 0.15:
                         self.tmp_action = random.randint(0, 8)  # random
                     else:
                         self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
                 else:
-                    if randomNb < self.epsilon:
+                    if random_nb < self.epsilon:
                         self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
                     else:
                         # Get Q values for each action.
@@ -110,10 +109,6 @@ class AI:
 
                 # Randomly sample our experience replay memory
                 minibatch = random.sample(self.replay, self.batchSize)
-
-                # If last stroke is a bad position, add it to minibatch to force training on it
-                if reward == self.getReward(RewardTypes.BAD_POSITION):
-                    minibatch[-1] = self.replay[-1]
 
                 # Get training values.
                 X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT,
@@ -151,8 +146,6 @@ class AI:
             return 10
         elif rewardType == RewardTypes.NOTHING:
             return 0.5
-        elif rewardType == RewardTypes.BAD_POSITION:
-            return -50
 
     def log_ai_and_weights(self, frames):
         #### WEIGHTS ####

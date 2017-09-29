@@ -93,16 +93,16 @@ def playAGame(AIs, nbGame):
     while not winner:
         if stroke(state_vector, AIs[player], nbGame):
             print("bad position")
-            return 1 + (player % 2), nb_frames_per_game, state_vector, False
+            return 1 + (player % 2), nb_frames_per_game, state_vector
 
         if isWin(state_vector):
             if DISPLAY_INFO:
                 print("Winner: " + AIs[player].name)
-            return player, nb_frames_per_game, state_vector, True
+            return player, nb_frames_per_game, state_vector
         elif isDraw(state_vector):
             if DISPLAY_INFO:
                 print("It's a draw !")
-            return None, nb_frames_per_game, state_vector, True
+            return None, nb_frames_per_game, state_vector
 
         AIs[player].callbackGameStateChange(AIs[player].getReward(RewardTypes.NOTHING), state_vector, nbGame)
 
@@ -113,14 +113,11 @@ def playAGame(AIs, nbGame):
 def playGames(nbr, AIs, checkpoint=0):
 
     for i in range(checkpoint, checkpoint + nbr + 1):
-        winnerIndex, nbPlay, state_vector, no_error = playAGame(AIs, i)
+        winnerIndex, nbPlay, state_vector = playAGame(AIs, i)
         if winnerIndex is not None:
             rewardWinner = AIs[winnerIndex].getReward(RewardTypes.WIN)
             AIs[winnerIndex].callbackGameStateChange(rewardWinner, state_vector, i)
-            if no_error:
-                rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
-            else: # means bad position
-                rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.BAD_POSITION)
+            rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
             AIs[1 + (winnerIndex % 2)].callbackGameStateChange(rewardLooser, state_vector, i)
             print("Game ", i, " : ", AIs[winnerIndex].name, " wins for the ", AIs[winnerIndex].nbWin, " times in ", nbPlay, " plays")
         else:
@@ -138,29 +135,34 @@ def init():
 
 
 if __name__ == '__main__':
-    AIs = {
-        1: AI("AI", 1, AITypes.ANN, isTraining=True),
-        2: AI("Random Player", -1, AITypes.RANDOM)
-    }
-
-    DISPLAY_INFO = False
-
-    print("-------------------- TRAINGING VS RANDOM --------------------")
-    playGames(80000, AIs)
-
-    # Reset Epsilon to a high value to keep the greedy exploration
-    # AIs[1].epsilon = 0.4
-    # AIs[2] = AI("IA", -1, AITypes.ANN, 20000)
-    # print("-------------------- TRAINGING VS ITSELF --------------------")
-    # playGames(20000, AIs)
-
-
     # AIs = {
-    #     1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
-    #     2: AI("Human Player", -1, AITypes.HUMAN)
+    #     1: AI("AI", 1, AITypes.ANN, isTraining=True),
+    #     2: AI("Random Player", -1, AITypes.RANDOM)
     # }
     #
-    # DISPLAY_INFO = True
+    # DISPLAY_INFO = False
     #
-    # print("-------------------- IA VS HUMAN --------------------")
-    # playGames(1000, AIs)
+    # print("-------------------- TRAINGING VS RANDOM --------------------")
+    # playGames(80000, AIs)
+
+    # trained_ai = AI.load_ai("2017.9.23/80001")
+    # AIs = {
+    #     1: trained_ai,
+    #     2: trained_ai
+    # }
+    #
+    # DISPLAY_INFO = False
+    #
+    # print("-------------------- TRAINGING VS ITSELF --------------------")
+    # playGames(20000, AIs, checkpoint=80000)
+
+
+    AIs = {
+        1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
+        2: AI("Human Player", -1, AITypes.HUMAN)
+    }
+
+    DISPLAY_INFO = True
+
+    print("-------------------- IA VS HUMAN --------------------")
+    playGames(10000, AIs)
