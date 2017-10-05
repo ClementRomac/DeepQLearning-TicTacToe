@@ -6,3 +6,18 @@ Discover DeepQLearning with a TicTacToe
 - Contributors :
   - Clément ROMAC
   - Nicolas Luvison
+
+# How to use it
+The main file to start is `game.py`.
+
+Comment or uncomment the code in the main function to train a new AI or to play against
+a trained one.
+
+## Playing vs AI
+The current code in `game.py` allows you to play against the best trained AI.
+
+## Training
+Uncomment the training code in the main function of the `game.py`. 
+We've implemented two types of training an AI :
+- Against a random player
+- Against itself

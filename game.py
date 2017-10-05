@@ -135,6 +135,11 @@ def init():
 
 
 if __name__ == '__main__':
+
+    ####################### TRAINING #######################
+
+    # print("-------------------- TRAINGING VS RANDOM --------------------")
+    #
     # AIs = {
     #     1: AI("AI", 1, AITypes.ANN, isTraining=True),
     #     2: AI("Random Player", -1, AITypes.RANDOM)
@@ -142,9 +147,10 @@ if __name__ == '__main__':
     #
     # DISPLAY_INFO = False
     #
-    # print("-------------------- TRAINGING VS RANDOM --------------------")
     # playGames(80000, AIs)
 
+    # print("-------------------- TRAINGING VS ITSELF --------------------")
+    #
     # trained_ai = AI.load_ai("2017.9.23/80001")
     # AIs = {
     #     1: trained_ai,
@@ -153,16 +159,19 @@ if __name__ == '__main__':
     #
     # DISPLAY_INFO = False
     #
-    # print("-------------------- TRAINGING VS ITSELF --------------------")
     # playGames(20000, AIs, checkpoint=80000)
 
 
+
+    ####################### PLAYING #######################
+
+    print("-------------------- IA VS HUMAN --------------------")
+
     AIs = {
-        1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/80000"),
+        1: AI("AI", 1, AITypes.ANN, load_weights="2017.9.23/57000"),
         2: AI("Human Player", -1, AITypes.HUMAN)
     }
 
     DISPLAY_INFO = True
 
-    print("-------------------- IA VS HUMAN --------------------")
     playGames(10000, AIs)
