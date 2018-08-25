@@ -1,7 +1,7 @@
 # DeepQLearning-TicTacToe
 Project done during the year 2016/2017 at Ingesup (Enimia Lab) : 
 - Project :
-Discover DeepQLearning with a TicTacToe
+Discover Deep QLearning with a TicTacToe
 
 - Contributors :
   - Clément ROMAC
