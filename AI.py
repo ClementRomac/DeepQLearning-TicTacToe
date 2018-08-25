@@ -26,21 +26,21 @@ class RewardTypes(Enum):
 class AI:
     observe = 100
     buffer = 50000
-    batchSize = 20
+    batch_size = 20
     divide_epsilon = 100000
     NUM_INPUT = 9
     GAMMA = 0.8
     epsilon = 0.7
 
-    def __init__(self, name, symbol, AIType, load_weights=None, isTraining=False):
+    def __init__(self, name, symbol, AIType, load_weights=None, is_training=False):
         # --------
         # Game
         # --------
         self.name = name
         self.symbol = symbol
-        self.nbWin = 0
+        self.nb_win = 0
         self.AIType = AIType
-        self.isTraining = isTraining
+        self.isTraining = is_training
 
         # --------
         # IA
@@ -59,27 +59,38 @@ class AI:
             else:
                 self.model = neural_net(self.NUM_INPUT)
 
-    def play(self, playable_position, state=None, total_game=None):
+    def get_playable_positions(self, state_vector):
+        playable_positions = []
+        i = 0
+        for index, value in enumerate(state_vector):
+            if value == 0:
+                playable_positions.append(index)
 
-        self.tmp_state = np.asarray(state).reshape(1, self.NUM_INPUT)
+        return playable_positions
+
+    def play(self, state_vector, total_game=None):
+
+        self.tmp_state = np.asarray(state_vector).reshape(1, self.NUM_INPUT)
+        playable_positions = self.get_playable_positions(state_vector)
 
         # Choose an action.
         random_nb = random.random()
         if self.AIType == AITypes.HUMAN:
-            print(playable_position)
-            self.tmp_action = int(input("index"))  # random
+            print("Please choose one of these positions to play :")
+            print(playable_positions)
+            self.tmp_action = int(input("position : "))  # random
         elif self.AIType == AITypes.RANDOM:
-            self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+            self.tmp_action = playable_positions[random.randint(0, len(playable_positions) - 1)]
         else:
             if self.isTraining:
                 if total_game < self.observe:
                     if random_nb < 0.15:
                         self.tmp_action = random.randint(0, 8)  # random
                     else:
-                        self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+                        self.tmp_action = playable_positions[random.randint(0, len(playable_positions) - 1)]
                 else:
                     if random_nb < self.epsilon:
-                        self.tmp_action = playable_position[random.randint(0, len(playable_position) - 1)]
+                        self.tmp_action = playable_positions[random.randint(0, len(playable_positions) - 1)]
                     else:
                         # Get Q values for each action.
                         qval = self.model.predict(self.tmp_state, batch_size=1)
@@ -90,7 +101,7 @@ class AI:
 
         return self.tmp_action
 
-    def callbackGameStateChange(self, reward, new_state, total_frame):
+    def callback_game_state_changed(self, reward, new_state, total_frame):
         if self.AIType == AITypes.ANN and self.isTraining:
             # Take action, observe new state and get our treat.
             new_state = np.asarray(new_state).reshape(1, self.NUM_INPUT)
@@ -108,11 +119,11 @@ class AI:
                     self.replay.pop(0)
 
                 # Randomly sample our experience replay memory
-                minibatch = random.sample(self.replay, self.batchSize)
+                minibatch = random.sample(self.replay, self.batch_size)
 
                 # Get training values.
                 X_train, y_train = process_minibatch(minibatch, self.model, self.GAMMA, self.NUM_INPUT,
-                                                     self.getReward(RewardTypes.NOTHING))
+                                                     self.get_reward(RewardTypes.NOTHING))
                 # Train the model on this batch.
                 # self.loss_log.append(self.model.fit(
                 #     X_train, y_train, batch_size=self.batchSize, nb_epoch=1, verbose=0
@@ -130,22 +141,22 @@ class AI:
                     self.epsilon -= (1 / self.divide_epsilon)
 
             # Save the model every 1 000 frames.
-            if total_frame % 1000 == 0 and total_frame > 0 and reward != self.getReward(RewardTypes.NOTHING):
+            if total_frame % 1000 == 0 and total_frame > 0 and reward != self.get_reward(RewardTypes.NOTHING):
                 print("Saving model and results for %s - %d" % ("Morpion AI", total_frame))
                 self.log_ai_and_weights(total_frame)
 
-    def getReward(self, rewardType):
-        if rewardType == RewardTypes.WIN:
-            self.nbWin += 1
+    def get_reward(self, reward_type):
+        if reward_type == RewardTypes.WIN:
+            self.nb_win += 1
             return 20
-        elif rewardType == RewardTypes.LOOSE:
-            self.nbWin = 0
+        elif reward_type == RewardTypes.LOOSE:
+            self.nb_win = 0
             return -20
-        elif rewardType == RewardTypes.DRAW:
-            self.nbWin = 0
+        elif reward_type == RewardTypes.DRAW:
+            self.nb_win = 0
             return 10
-        elif rewardType == RewardTypes.NOTHING:
-            return 0.5
+        elif reward_type == RewardTypes.NOTHING:
+            return 0
 
     def log_ai_and_weights(self, frames):
         #### WEIGHTS ####
@@ -162,7 +173,7 @@ class AI:
                 'epsilon': self.epsilon,
                 'name': self.name,
                 'symbol': self.symbol,
-                'nbWin': self.nbWin,
+                'nbWin': self.nb_win,
                 'AIType': self.AIType,
                 'isTraining': self.isTraining,
                 'replay': self.replay,
@@ -178,9 +189,9 @@ class AI:
         with open("pickles/" + str(checkpoint) + '.pickle', 'rb') as handle:
             ai_dict = pickle.load(handle)
 
-            ai = AI(ai_dict['name'], ai_dict['symbol'], ai_dict['AIType'], load_weights=checkpoint, isTraining=ai_dict['isTraining'])
+            ai = AI(ai_dict['name'], ai_dict['symbol'], ai_dict['AIType'], load_weights=checkpoint, is_training=ai_dict['isTraining'])
             ai.epsilon = ai_dict['epsilon']
-            ai.nbWin = ai_dict['nbWin']
+            ai.nb_win = ai_dict['nbWin']
             ai.replay = ai_dict['replay']
             ai.tmp_state = ai_dict['tmp_state']
             ai.tmp_action = ai_dict['tmp_action']

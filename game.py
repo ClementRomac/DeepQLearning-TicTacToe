@@ -1,138 +1,56 @@
-from IPython.core.display import display
-import matplotlib.pyplot as plt
+import gym
+import gym_tictactoe
 
 from AI import AI
 from AI import AITypes
 from AI import RewardTypes
 
-
-# ------------------------------------------ DISPLAY ----------------------------------------
-
-def displayGrid(grid):
-    printGridLine(grid)
-    printGridLine(grid, 3)
-    printGridLine(grid, 6)
-    print(" -------------")
-
-    print()
-
-
-def printGridLine(grid, offset=0):
-    print(" -------------")
-    for i in range(3):
-        if grid[i + offset] == 0:
-            print(" | " + " ", end='')
-        else:
-            print(" | " + str(grid[i + offset]), end='')
-    print(" |")
-
-
-# ------------------------------------------ GAME STATE CHECK ----------------------------------------
-def isWin(grid):
-    if (grid[0] == grid[1]) and (grid[0] == grid[2]) and (grid[0] != 0):
-        return True
-    elif (grid[3] == grid[4]) and (grid[3] == grid[5]) and (grid[3] != 0):
-        return True
-    elif (grid[6] == grid[7]) and (grid[6] == grid[8]) and (grid[6] != 0):
-        return True
-    elif (grid[0] == grid[3]) and (grid[0] == grid[6]) and (grid[0] != 0):
-        return True
-    elif (grid[1] == grid[4]) and (grid[1] == grid[7]) and (grid[1] != 0):
-        return True
-    elif (grid[2] == grid[5]) and (grid[2] == grid[8]) and (grid[2] != 0):
-        return True
-    elif (grid[0] == grid[4]) and (grid[0] == grid[8]) and (grid[0] != 0):
-        return True
-    elif (grid[2] == grid[4]) and (grid[2] == grid[6]) and (grid[2] != 0):
-        return True
-    else:
-        return False
-
-
-def isDraw(grid):
-    for i in range(9):
-        if grid[i] == 0:
-            return 0
-    return 1
-
-
-# ------------------------------------------ ACTIONS ----------------------------------------
-def getPlayablePosition(state_vector_param):
-    playable_position = []
-    i = 0
-    while i < len(state_vector_param):
-        if state_vector_param[i] == 0:
-            playable_position.append(i)
-        i += 1
-    return playable_position
-
-
-def stroke(state_vector_param, joueur, nbGame):
-    positionIsBad = False
-    playable_position = getPlayablePosition(state_vector_param)
-
-    index = joueur.play(playable_position, state_vector_param, nbGame)
-
-    if state_vector_param[index] != 0:
-        positionIsBad = True
-
-    state_vector_param[index] = joueur.symbol
-
-    if DISPLAY_INFO:
-        print(joueur.name, " (", joueur.symbol, ")", sep='')
-        displayGrid(state_vector_param)
-
-    return positionIsBad
-
-
-# ------------------------------------------ GAME ----------------------------------------
-def playAGame(AIs, nbGame):
-    winner = False
+def play_a_game(AIs, nb_game, gym_env):
+    done = False
     nb_frames_per_game = 0
-    player, state_vector = init()
-    while not winner:
-        if stroke(state_vector, AIs[player], nbGame):
-            print("bad position")
-            return 1 + (player % 2), nb_frames_per_game, state_vector
+    player_index = 1
+    # Reset the env before playing
+    state = env.reset()
 
-        if isWin(state_vector):
-            if DISPLAY_INFO:
-                print("Winner: " + AIs[player].name)
-            return player, nb_frames_per_game, state_vector
-        elif isDraw(state_vector):
-            if DISPLAY_INFO:
-                print("It's a draw !")
-            return None, nb_frames_per_game, state_vector
+    while not done:
+        player = AIs[player_index]
+        index = player.play(state, nb_game)
+        state, reward, done, infos = env.step(index, player.symbol)
+        if DISPLAY_INFO:
+            env.render(mode=None)
 
-        AIs[player].callbackGameStateChange(AIs[player].getReward(RewardTypes.NOTHING), state_vector, nbGame)
-
-        player = 1 + (player % 2)
-        nb_frames_per_game += 1
-
-
-def playGames(nbr, AIs, checkpoint=0):
-
-    for i in range(checkpoint, checkpoint + nbr + 1):
-        winnerIndex, nbPlay, state_vector = playAGame(AIs, i)
-        if winnerIndex is not None:
-            rewardWinner = AIs[winnerIndex].getReward(RewardTypes.WIN)
-            AIs[winnerIndex].callbackGameStateChange(rewardWinner, state_vector, i)
-            rewardLooser = AIs[1 + (winnerIndex % 2)].getReward(RewardTypes.LOOSE)
-            AIs[1 + (winnerIndex % 2)].callbackGameStateChange(rewardLooser, state_vector, i)
-            print("Game ", i, " : ", AIs[winnerIndex].name, " wins for the ", AIs[winnerIndex].nbWin, " times in ", nbPlay, " plays")
+        if not done:
+            player.callback_game_state_changed(player.get_reward(RewardTypes.NOTHING), state, nb_game)
+            player_index = 1 + (player_index % 2)
+            nb_frames_per_game += 1
         else:
-            rewardLooser1 = AIs[1].getReward(RewardTypes.DRAW)
-            AIs[1].callbackGameStateChange(rewardLooser1, state_vector, i)
-            rewardLooser2 = AIs[2].getReward(RewardTypes.DRAW)
-            AIs[2].callbackGameStateChange(rewardLooser2, state_vector, i)
+            if reward == player.get_reward(RewardTypes.DRAW):
+                if DISPLAY_INFO:
+                    print("It's a draw !")
+                return None, nb_frames_per_game, state
+            elif reward == player.get_reward(RewardTypes.LOOSE):
+                print("bad position")
+                return 1 + (player_index % 2), nb_frames_per_game, state
+            elif reward == player.get_reward(RewardTypes.WIN):
+                if DISPLAY_INFO:
+                    print("Winner: " + player.name)
+                return player_index, nb_frames_per_game, state
+
+def play_games(nbr, AIs, gym_env, checkpoint=0):
+    for i in range(checkpoint, checkpoint + nbr + 1):
+        winner_index, nb_play, state_vector = play_a_game(AIs, i, gym_env)
+        if winner_index is not None:
+            reward_winner = AIs[winner_index].get_reward(RewardTypes.WIN)
+            AIs[winner_index].callback_game_state_changed(reward_winner, state_vector, i)
+            rewardLooser = AIs[1 + (winner_index % 2)].get_reward(RewardTypes.LOOSE)
+            AIs[1 + (winner_index % 2)].callback_game_state_changed(rewardLooser, state_vector, i)
+            print("Game ", i, " : ", AIs[winner_index].name, " wins for the ", AIs[winner_index].nb_win, " times in ", nb_play + 1, " plays")
+        else:
+            rewardLooser1 = AIs[1].get_reward(RewardTypes.DRAW)
+            AIs[1].callback_game_state_changed(rewardLooser1, state_vector, i)
+            rewardLooser2 = AIs[2].get_reward(RewardTypes.DRAW)
+            AIs[2].callback_game_state_changed(rewardLooser2, state_vector, i)
             print("Game ", i, " : ", "Draw !")
-
-
-def init():
-    player = 1
-    state_vector = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    return player, state_vector
-
 
 if __name__ == '__main__':
 
@@ -172,6 +90,9 @@ if __name__ == '__main__':
         2: AI("Human Player", -1, AITypes.HUMAN)
     }
 
+    global DISPLAY_INFO
     DISPLAY_INFO = True
+    env = gym.make('TicTacToe-v1')
+    env.init([ai.symbol for _, ai in AIs.items()])
 
-    playGames(10000, AIs)
+    play_games(10000, AIs, env)
