@@ -1,11 +1,11 @@
 # DeepQLearning-TicTacToe
-Project in the [Enimia Lab](http://enimia.com/) : 
+Project done during the year 2016/2017 at Ingesup (Enimia Lab) : 
 - Project :
 Discover DeepQLearning with a TicTacToe
 
 - Contributors :
   - Clément ROMAC
-  - Nicolas Luvison
+  - [Nicolas Luvison](https://github.com/Mitsichury)
 
 # How to use it
 The main file to start is `game.py`.
